@@ -1,7 +1,7 @@
 services:
   api:
     build: .
-    image: river-fall-approval:1.0.0
+    image: river-fall-approval:2.0.0
     container_name: river-fall-approval
     ports:
       - "8000:8000"

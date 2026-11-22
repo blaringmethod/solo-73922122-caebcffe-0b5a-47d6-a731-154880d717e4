@@ -6,6 +6,7 @@ import threading
 
 T = "2026-11-22T08:00:00Z"
 T2 = "2026-11-22T09:00:00Z"
+T_MICRO = "2026-11-22T08:00:00.123456Z"
 
 
 def _readings(client, mapping, t=T):
@@ -89,8 +90,9 @@ def test_duplicate_reading_whole_batch_rejected(client):
     r = client.post("/readings", json=body)
     assert r.status_code == 409
     # 整单拒绝：S2 也不应被写入
-    assert client.get("/readings").json() == [
-        {"station": "S1", "utc_time": T, "gauge_mm": 1000}
+    rows = client.get("/readings").json()
+    assert [(x["station"], x["utc_time"], x["gauge_mm"], x["time_status"]) for x in rows] == [
+        ("S1", "2026-11-22T08:00:00.000000Z", 1000, "confirmed")
     ]
 
 
