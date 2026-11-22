@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    image: river-fall-approval:1.0.0
+    container_name: river-fall-approval
+    ports:
+      - "8000:8000"
+    environment:
+      APP_DB_PATH: /data/app.db
+    volumes:
+      - river-fall-data:/data
+    restart: unless-stopped
+
+volumes:
+  river-fall-data:
